@@ -4,6 +4,7 @@ import SignIn from "./components/Auth/Signin";
 import SignUp from "./components/Auth/Signup";
 import SalespersonDashboard from "./components/SalespersonDashboard/SalespersonDashboard"; 
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
+import VideoConference from './components/VideoCall/VideoConference';
 
 export default function App() {
   return (
@@ -28,6 +29,17 @@ export default function App() {
         }
       />
 
+      {/* Video Conference Route */}
+
+      <Route 
+        path="/dashboard/calls" 
+        element={
+          <PrivateRoute>
+            <VideoConference />
+          </PrivateRoute>
+        } 
+      />
+      
       {/* Authentication Routes */}
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />

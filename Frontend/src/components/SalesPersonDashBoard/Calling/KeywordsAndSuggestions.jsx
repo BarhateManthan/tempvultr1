@@ -44,10 +44,23 @@ const KeywordsAndSuggestions = ({ conversation }) => {
   };
 
   useEffect(() => {
-    loadKeywordStatus();
-    const intervalId = setInterval(() => loadKeywordStatus(), 25000);
+    // Load keyword status based on transcriptions whenever they change
+    if (transcriptions?.length > 0) {
+      const text = transcriptions.map(t => t.text).join(' ');
+      loadKeywordStatus(text);
+    }
+  
+    // Set up polling to refresh keyword status every 25 seconds
+    const intervalId = setInterval(() => {
+      if (transcriptions?.length > 0) {
+        const text = transcriptions.map(t => t.text).join(' ');
+        loadKeywordStatus(text);
+      }
+    }, 25000);
+  
+    // Clean up the interval on unmount or when `transcriptions` changes
     return () => clearInterval(intervalId);
-  }, [conversation]);
+  }, [transcriptions]);
 
   return (
     <div className="h-full flex flex-col gap-4">
